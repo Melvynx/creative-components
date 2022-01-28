@@ -48,57 +48,48 @@ export default function NotifyMeInput() {
   return (
     <ClassNames>
       {({ css }) => (
-        <Wrapper>
-          <animated.div
-            className={css({
-              backgroundColor: 'var(--neutral-color)',
-              borderRadius: 1000,
-              padding: 8,
-            })}
-            style={{
-              width,
+        <animated.div
+          className={css({
+            backgroundColor: 'var(--neutral-color)',
+            borderRadius: 1000,
+            padding: 8,
+
+            '--transition-duration': '350ms',
+            '--timing-function': 'cubic-bezier(0.29, 0, 0.55, 1.2)',
+            '--primary-color': '#f47b73',
+            '--neutral-color': '#ffffff',
+          })}
+          style={{
+            width,
+          }}
+        >
+          <Container
+            style={containerStyle}
+            onSubmit={(e) => {
+              onSubmit(e);
             }}
           >
-            <Container
-              style={containerStyle}
-              onSubmit={(e) => {
-                onSubmit(e);
+            <Input
+              name="email"
+              type="email"
+              style={inputStyle}
+              placeholder="E-mail"
+            />
+            <Button type="submit" style={buttonStyle} value="Send" />
+            <Content
+              onClick={() => {
+                setOpen(true);
               }}
+              style={contentStyle}
             >
-              <Input
-                name="email"
-                type="email"
-                style={inputStyle}
-                placeholder="E-mail"
-              />
-              <Button type="submit" style={buttonStyle} value="Send" />
-              <Content
-                onClick={() => {
-                  setOpen(true);
-                }}
-                style={contentStyle}
-              >
-                {submited ? 'Thanks you' : 'Notify me'}
-              </Content>
-            </Container>
-          </animated.div>
-        </Wrapper>
+              {submited ? 'Thanks you' : 'Notify me'}
+            </Content>
+          </Container>
+        </animated.div>
       )}
     </ClassNames>
   );
 }
-
-const Wrapper = styled.div`
-  background-color: var(--primary-color);
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-
-  --transition-duration: 350ms;
-  --timing-function: cubic-bezier(0.29, 0, 0.55, 1.2);
-  --primary-color: #f47b73;
-  --neutral-color: #ffffff;
-`;
 
 const Container = styled.form`
   font-family: var(--font-family-sans-serif);
