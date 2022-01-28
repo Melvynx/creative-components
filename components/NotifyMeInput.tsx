@@ -3,18 +3,22 @@ import styled from '@emotion/styled';
 import React, { FormEvent, useState } from 'react';
 import { animated, config, useSpring } from 'react-spring';
 
-export default function NotifyMeInput() {
+export default function NotifyMeInput({
+  onSubmit,
+}: {
+  onSubmit: (email: string) => void;
+}) {
   const [open, setOpen] = useState(false);
   const [submited, setSubmited] = useState(false);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const value: string | undefined = event.target['email'].value;
     if (!value) return;
 
     setOpen(false);
     setSubmited(true);
-    alert(`Submited ! ${value}`);
+    onSubmit(value);
   };
 
   const { width } = useSpring({
@@ -63,12 +67,7 @@ export default function NotifyMeInput() {
             width,
           }}
         >
-          <Container
-            style={containerStyle}
-            onSubmit={(e) => {
-              onSubmit(e);
-            }}
-          >
+          <Container style={containerStyle} onSubmit={onFormSubmit}>
             <Input
               name="email"
               type="email"
