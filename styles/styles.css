@@ -1,0 +1,29 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Varela+Round&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+#__next {
+  height: 100%;
+}
+
+/* global css variables */
+:root {
+  /* cubic-bezier */
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in: cubic-bezier(0.75, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease: cubic-bezier(0.44, 0.21, 0, 1);
+
+  /* gradients */
+  --gradient-primary: linear-gradient(
+    315deg,
+    hsl(156deg 100% 69%) 0%,
+    hsl(179deg 100% 45%) 20%,
+    hsl(194deg 100% 50%) 40%,
+    hsl(203deg 100% 50%) 60%,
+    hsl(215deg 100% 50%) 80%,
+    hsl(285deg 99% 37%) 100%
+  );
+
+  /* font-family */
+  --font-family-sans-serif: 'Raleway', sans-serif;
+}
