@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import Layout from '~/components/Layout';
-import NotifyMeInput from '~/components/NotifyMeInput';
+import Layout from '~/components/layout/Layout';
+import NotifyMeInput from '~/components/creative/NotifyMeInput';
 
 const NotifyMe = () => {
   const [email, setEmail] = useState('');
