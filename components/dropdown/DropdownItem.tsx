@@ -1,15 +1,15 @@
 import styled from "@emotion/styled";
-import {LiHTMLAttributes, PropsWithChildren} from "react";
-import {WEIGHTS} from "~/styles/constants";
+import { LiHTMLAttributes, PropsWithChildren } from "react";
+import { WEIGHTS } from "~/styles/constants";
 
 export const DropdownItem = ({
   children,
   ...props
-}: PropsWithChildren<LiHTMLAttributes<HTMLLIElement>>) => {
+}: PropsWithChildren<LiHTMLAttributes<HTMLAnchorElement>>) => {
   return <Wrapper {...props}>{children}</Wrapper>;
 };
 
-const Wrapper = styled.li`
+const Wrapper = styled.a`
   width: 100%;
   color: #6e56cf;
   font-size: 1rem;

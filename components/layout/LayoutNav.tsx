@@ -8,31 +8,33 @@ import {
   DropdownMenu,
 } from "~/components/dropdown";
 
-export const NavItems = () => {
+export const LayoutNav = () => {
   return (
     <>
       <Link href="/">
         <NavItem>Home</NavItem>
       </Link>
 
-      {/* Get this item using the nextjs static props */}
       <DropdownMenu mode="click">
         <DropdownItems>
-          <Link href="/examples/notify_me">
-            <DropdownItem>Notify me</DropdownItem>
-          </Link>
-          <Link href="/examples/dropdown">
-            <DropdownItem>Dropdown</DropdownItem>
-          </Link>
-          <Link href="/examples/slide_form">
-            <DropdownItem>Slide form</DropdownItem>
-          </Link>
+          <Item>Notify me</Item>
+          <Item>Dropdown</Item>
+          <Item>Slide Form</Item>
+          <Item>Two FA</Item>
         </DropdownItems>
         <DropdownManager>
           <NavItem>Components</NavItem>
         </DropdownManager>
       </DropdownMenu>
     </>
+  );
+};
+
+const Item = ({ children }: { children: string }) => {
+  return (
+    <Link href={`/examples/${children.replaceAll(" ", "_").toLocaleLowerCase()}`}>
+      <DropdownItem>{children}</DropdownItem>
+    </Link>
   );
 };
 

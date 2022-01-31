@@ -1,16 +1,16 @@
-import styled from '@emotion/styled';
-import Head from 'next/head';
-import Link from 'next/link';
-import React, { ReactNode } from 'react';
-import { QUERIES, WEIGHTS } from '~/styles/constants';
-import { NavItems } from './NavItems';
+import styled from "@emotion/styled";
+import Head from "next/head";
+import Link from "next/link";
+import React, { ReactNode } from "react";
+import { QUERIES, WEIGHTS } from "~/styles/constants";
+import { LayoutNav } from "./LayoutNav";
 
 type Props = {
   children?: ReactNode;
   title?: string;
 };
 
-const Layout = ({ children, title = 'Title' }: Props) => (
+const Layout = ({ children, title = "Title" }: Props) => (
   <>
     <Head>
       <title>{title}</title>
@@ -25,11 +25,11 @@ const Layout = ({ children, title = 'Title' }: Props) => (
           </Link>
         </Side>
         <NavDesktop>
-          <NavItems />
+          <LayoutNav />
         </NavDesktop>
         <Side></Side>
         {/* <NavMobile>
-          <NavItems />
+          <LayoutNav />
         </NavMobile> */}
       </Header>
       <Content>{children}</Content>
