@@ -1,21 +1,21 @@
 import { createTheme } from '@mui/material';
-import { BREAKPOINTS } from './constants';
+import {BREAKPOINTS, COLORS} from './constants';
 
 export const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#7f5af0',
+      main: COLORS.primary,
     },
     secondary: {
-      main: '#2cb67d',
+      main: COLORS.secondary,
     },
     neutral: {
-      main: '#ffffff',
+      main: COLORS.white,
     },
     background: {
-      default: '#16161a',
-      paper: '#242629',
+      default: COLORS.bg.default,
+      paper: COLORS.bg.paper,
     },
   },
   breakpoints: {
