@@ -24,6 +24,9 @@ export const NavItems = () => {
           <Link href="/examples/dropdown">
             <DropdownItem>Dropdown</DropdownItem>
           </Link>
+          <Link href="/examples/slide_form">
+            <DropdownItem>Slide form</DropdownItem>
+          </Link>
         </DropdownItems>
         <DropdownManager>
           <NavItem>Components</NavItem>
