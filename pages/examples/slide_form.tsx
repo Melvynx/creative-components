@@ -6,16 +6,21 @@ import {
   SlideFormChildren,
   useSlideFormContext,
 } from "~/components/slide-form/SlideForm";
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { TwoFAInput, TwoFAInputState } from "~/components/creative/TwoFAInput";
+import { ExampleWrapper } from "~/components/ExampleWrapper";
 
 const SlideFormExample = () => {
   return (
     <Layout>
-      <Wrapper>
-        <SlideForm tabs={["email", "password", "2fa"]} initialTab={"email"}>
+      <ExampleWrapper>
+        <SlideForm
+          tabs={["email", "password", "2fa", "success"]}
+          initialTab={"email"}
+        >
           <SlideBackButton>
             <BackButton>
               <ArrowBackRoundedIcon />
@@ -31,8 +36,11 @@ const SlideFormExample = () => {
           <SlideFormChildren tab="2fa">
             <LastForm />
           </SlideFormChildren>
+          <SlideFormChildren tab="success">
+            <SuccessForm />
+          </SlideFormChildren>
         </SlideForm>
-      </Wrapper>
+      </ExampleWrapper>
     </Layout>
   );
 };
@@ -111,23 +119,63 @@ const PasswordForm = () => {
 };
 
 const LastForm = () => {
-  const { submit } = useSlideFormContext();
+  const { submit, next } = useSlideFormContext();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [twoFAState, setTwoFAState] = useState<TwoFAInputState>("idle");
+
+  const checkCode = async (code: string) => {
+    return new Promise((resolve, reject) => {
+      setIsLoading(true);
+
+      setTimeout(() => {
+        if (code === "666666") {
+          resolve("");
+          setTwoFAState("success");
+          submit((values) => {
+            // eslint-disable-next-line no-console
+            console.log("Fetch API", values);
+          }, code);
+          setTimeout(() => {
+            next(code);
+          }, 250);
+        } else {
+          reject("Invalid code");
+          setTwoFAState("error");
+        }
+        setIsLoading(false);
+      }, 250);
+    });
+  };
 
   return (
     <Form
+      ref={formRef}
       onSubmit={(e) => {
         e.preventDefault();
-        submit((values) => {
-          console.log(values);
-        });
       }}
     >
       <FormTitle>2FA</FormTitle>
-      -- TO DO --
-      <Button type={"submit"} fullWidth>
+      <Body>
+        Add your authentication code. You can find it in your OAuth2 app.
+      </Body>
+      <TwoFAInput
+        state={twoFAState}
+        onSubmit={async (code) => checkCode(code)}
+      />
+      <LoadingButton loading={isLoading} type={"submit"} fullWidth>
         Submit
-      </Button>
+      </LoadingButton>
     </Form>
+  );
+};
+
+const SuccessForm = () => {
+  return (
+    <div>
+      <FormTitle>Success</FormTitle>
+      <p>You are logged in</p>
+    </div>
   );
 };
 
@@ -135,11 +183,17 @@ const Title = styled.h2`
   font-size: 2rem;
   text-align: center;
   font-weight: 300;
+  margin-bottom: 16px;
 `;
 
 const FormTitle = styled.h3`
   font-size: 1.2rem;
   font-weight: 500;
+`;
+
+const Body = styled.p`
+  font-size: 1rem;
+  color: var(--color-gray-300);
 `;
 
 const BackButton = styled.button`
@@ -158,19 +212,6 @@ const BackButton = styled.button`
   &:hover {
     background-color: hsl(0 0% 100% / 0.8);
   }
-`;
-
-const Wrapper = styled.div`
-  background: linear-gradient(
-    330deg,
-    hsl(272 51% 54%) 0%,
-    hsl(226 70% 55.5%) 100%
-  );
-  border-radius: 8px;
-  padding: 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const Form = styled.form`

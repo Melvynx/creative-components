@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
 import { QUERIES } from "~/styles/constants";
 
 type SlideFormProps<T extends string[]> = PropsWithChildren<{
@@ -20,7 +19,7 @@ type SlideFormContextType = {
   next: (data: unknown) => void;
   back: () => void;
   current: string;
-  submit: (callback: (values: Record<string, unknown>) => void) => void;
+  submit: (callback: (values: Record<string, unknown>) => void, values: unknown) => void;
   previousRef?: MutableRefObject<string>;
   tabs: string[];
 };
@@ -58,7 +57,19 @@ export const SlideForm = <T extends string[]>({
     setCurrent(tabs[Math.max(0, tabs.indexOf(current) - (1 % tabs.length))]);
   };
 
-  const submit = (callback: (values: Record<T[number], unknown>) => void) => {
+  const submit = (
+    callback: (values: Record<T[number], unknown>) => void,
+    values?: unknown
+  ) => {
+    if (values) {
+      const newForm = {
+        ...form,
+        [current]: values,
+      };
+      setForm(newForm);
+      callback(newForm);
+      return;
+    }
     callback(form);
   };
 
@@ -93,7 +104,6 @@ export const useSlideFormContext = (): SlideFormContextType => {
 const getIsBack = (current: string, previous: string, tabs: string[]) => {
   const currentIndex = tabs.indexOf(current);
   const previousIndex = tabs.indexOf(previous);
-  console.log({ current, previous, isBack: currentIndex < previousIndex });
 
   return currentIndex < previousIndex;
 };
@@ -147,55 +157,11 @@ export const SlideBackButton = ({ children }: PropsWithChildren<unknown>) => {
   });
 };
 
-const slideInLeft = keyframes({
-  from: {
-    transform: "translateX(100%)",
-    opacity: 0,
-  },
-  to: {
-    transform: "translateX(0)",
-    opacity: 1,
-  },
-});
-
-const slideInRight = keyframes({
-  from: {
-    transform: "translateX(-100%)",
-    opacity: 0,
-  },
-  to: {
-    transform: "translateX(0)",
-    opacity: 1,
-  },
-});
-
-const slideOutLeft = keyframes({
-  from: {
-    transform: "translateX(0)",
-    opacity: 1,
-  },
-  to: {
-    transform: "translateX(-100%)",
-    opacity: 0,
-  },
-});
-
-const slideOutRight = keyframes({
-  from: {
-    transform: "translateX(0)",
-    opacity: 1,
-  },
-  to: {
-    transform: "translateX(100%)",
-    opacity: 0,
-  },
-});
-
 const getAnimation = (isActive: boolean, isBack: boolean) => {
   if (isBack) {
-    return isActive ? slideInRight : slideOutRight;
+    return isActive ? "slideInRight" : "slideOutRight";
   } else {
-    return isActive ? slideInLeft : slideOutLeft;
+    return isActive ? "slideInLeft" : "slideOutLeft";
   }
 };
 
@@ -209,9 +175,10 @@ const ChildrenWrapper = styled.div<{ isActive: boolean; isBack: boolean }>`
 
 const Wrapper = styled.div`
   background: ${({ theme }) => theme.palette.background.paper};
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
   min-width: min(400px, 100%);
+  width: min-content;
   position: relative;
 
   --padding: 16px;
