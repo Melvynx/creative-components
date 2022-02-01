@@ -3,12 +3,12 @@ import Layout from "~/components/layout/Layout";
 import {
   SlideBackButton,
   SlideForm,
-  SlideFormChildren,
+  SlideFormTab,
   useSlideFormContext,
-} from "~/components/slide-form/SlideForm";
+} from "~/components/slide-form";
 import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import { HiArrowSmLeft } from "react-icons/hi";
 import { useRef, useState } from "react";
 import { TwoFAInput, TwoFAInputState } from "~/components/creative/TwoFAInput";
 import { ExampleWrapper } from "~/components/ExampleWrapper";
@@ -23,22 +23,22 @@ const SlideFormExample = () => {
         >
           <SlideBackButton>
             <BackButton>
-              <ArrowBackRoundedIcon />
+              <HiArrowSmLeft />
             </BackButton>
           </SlideBackButton>
           <Title>Login</Title>
-          <SlideFormChildren tab="email">
+          <SlideFormTab tab="email">
             <EmailForm />
-          </SlideFormChildren>
-          <SlideFormChildren tab="password">
+          </SlideFormTab>
+          <SlideFormTab tab="password">
             <PasswordForm />
-          </SlideFormChildren>
-          <SlideFormChildren tab="2fa">
+          </SlideFormTab>
+          <SlideFormTab tab="2fa">
             <LastForm />
-          </SlideFormChildren>
-          <SlideFormChildren tab="success">
+          </SlideFormTab>
+          <SlideFormTab tab="success">
             <SuccessForm />
-          </SlideFormChildren>
+          </SlideFormTab>
         </SlideForm>
       </ExampleWrapper>
     </Layout>
@@ -57,7 +57,6 @@ const EmailForm = () => {
         e.preventDefault();
         const email = e.target["email"].value;
 
-        // check email with regex
         if (!email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
           setError("Invalid email");
           return;
@@ -73,6 +72,7 @@ const EmailForm = () => {
     >
       <FormTitle>Login</FormTitle>
       <TextField
+        defaultValue={"jean@gmail.com"}
         name={"email"}
         error={Boolean(error)}
         helperText={error}
@@ -204,13 +204,13 @@ const BackButton = styled.button`
   height: 32px;
   cursor: pointer;
   border-radius: 1000px;
-  background-color: hsl(0 0% 100% / 0.5);
+  background-color: var(--color-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
 
   &:hover {
-    background-color: hsl(0 0% 100% / 0.8);
+    filter: brightness(0.8);
   }
 `;
 

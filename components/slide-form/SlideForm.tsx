@@ -19,7 +19,10 @@ type SlideFormContextType = {
   next: (data: unknown) => void;
   back: () => void;
   current: string;
-  submit: (callback: (values: Record<string, unknown>) => void, values: unknown) => void;
+  submit: (
+    callback: (values: Record<string, unknown>) => void,
+    values: unknown
+  ) => void;
   previousRef?: MutableRefObject<string>;
   tabs: string[];
 };
@@ -27,8 +30,8 @@ type SlideFormContextType = {
 const slideFormContext = createContext<SlideFormContextType>({
   next: () => void 0,
   back: () => void 0,
-  current: "",
   submit: () => () => void 0,
+  current: "",
   tabs: [],
 });
 
@@ -40,6 +43,10 @@ export const SlideForm = <T extends string[]>({
   const [current, setCurrent] = useState(initialTab);
   const previousRef = useRef<string>();
   const [form, setForm] = useState<Record<T[number], unknown>>({} as never);
+
+  useEffect(() => {
+    previousRef.current = current;
+  }, [current]);
 
   const next = (values: unknown) => {
     setForm((prev) => ({
@@ -73,10 +80,6 @@ export const SlideForm = <T extends string[]>({
     callback(form);
   };
 
-  useEffect(() => {
-    previousRef.current = current;
-  }, [current]);
-
   return (
     <slideFormContext.Provider
       value={{
@@ -100,78 +103,6 @@ export const useSlideFormContext = (): SlideFormContextType => {
   }
   return context;
 };
-
-const getIsBack = (current: string, previous: string, tabs: string[]) => {
-  const currentIndex = tabs.indexOf(current);
-  const previousIndex = tabs.indexOf(previous);
-
-  return currentIndex < previousIndex;
-};
-
-export const SlideFormChildren = ({
-  tab,
-  children,
-}: PropsWithChildren<{ tab: string }>) => {
-  const { current, previousRef, tabs } = useSlideFormContext();
-  const lastIsBackRef = useRef(false);
-
-  const isBack =
-    current === tab || previousRef.current === tab
-      ? getIsBack(current, previousRef.current, tabs)
-      : lastIsBackRef.current;
-
-  useEffect(() => {
-    lastIsBackRef.current = isBack;
-  }, [isBack]);
-
-  const isActive = current === tab;
-
-  const styles: Record<string, string> = {
-    pointerEvents: isActive ? "auto" : "none",
-    position: isActive ? "relative" : "absolute",
-    left: isActive ? "unset" : "var(--padding)",
-    right: isActive ? "unset" : "var(--padding)",
-    bottom: isActive ? "unset" : "var(--padding)",
-  };
-
-  return (
-    <ChildrenWrapper isActive={isActive} isBack={isBack} style={styles}>
-      {children}
-    </ChildrenWrapper>
-  );
-};
-
-export const SlideBackButton = ({ children }: PropsWithChildren<unknown>) => {
-  const { back, current, tabs } = useSlideFormContext();
-
-  const isVisible = tabs.indexOf(current) !== 0;
-
-  return React.cloneElement(children as React.ReactElement, {
-    onClick: () => {
-      back();
-    },
-    style: {
-      visibility: isVisible ? "visible" : "hidden",
-      pointerEvents: isVisible ? "auto" : "none",
-    },
-  });
-};
-
-const getAnimation = (isActive: boolean, isBack: boolean) => {
-  if (isBack) {
-    return isActive ? "slideInRight" : "slideOutRight";
-  } else {
-    return isActive ? "slideInLeft" : "slideOutLeft";
-  }
-};
-
-const ChildrenWrapper = styled.div<{ isActive: boolean; isBack: boolean }>`
-  border-radius: inherit;
-  animation-name: ${(props) => getAnimation(props.isActive, props.isBack)};
-  animation-duration: ${(props) => (props.isActive ? "400ms" : "300ms")};
-  animation-timing-function: var(--ease-out);
-  animation-fill-mode: forwards;
-`;
 
 const Wrapper = styled.div`
   background: ${({ theme }) => theme.palette.background.paper};

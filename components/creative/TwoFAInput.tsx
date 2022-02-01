@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { WEIGHTS } from "~/styles/constants";
+import { QUERIES, WEIGHTS } from "~/styles/constants";
 
 export type TwoFAInputState = "error" | "idle" | "success";
 
@@ -78,7 +78,7 @@ export const TwoFAInput = ({
       : {
           "--border-color":
             state === "error" ? "var(--color-error)" : "var(--color-success)",
-          animation: "shake 500ms var(--ease-in-out)",
+          animation: state === "error" ? "shake 500ms var(--ease-in-out)" : "",
         };
 
   return (
@@ -107,21 +107,30 @@ const Wrapper = styled.div`
 `;
 
 const Input = styled.input`
-  --b-color: var(--border-color, var(--color-primary));
-  width: 48px;
-  height: 48px;
-  border: 2px solid var(--b-color);
+  --input-border-color: var(--border-color, var(--color-primary));
+  --size: 42px;
+  --font-size: 1.2rem;
+
+  @media ${QUERIES.tabletAndUp} {
+    --size: 48px;
+    --font-size: 1.4rem;
+  }
+
+  width: var(--size);
+  height: var(--size);
+  font-size: var(--font-size);
+  border: 2px solid var(--input-border-color);
   color: var(--color-white);
   background-color: var(--color-gray-900);
+  transition: transform 200ms var(--ease-out), filter 100ms var(--ease-out);
+
   border-radius: 4px;
   font-weight: ${WEIGHTS.bold};
-  font-size: 1.4rem;
   text-align: center;
-  transition: transform 200ms var(--ease-out), filter 100ms var(--ease-out);
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--b-color);
+    box-shadow: 0 0 0 1px var(--input-border-color);
     transform: translateY(-2px);
   }
 
