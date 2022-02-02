@@ -119,7 +119,7 @@ const PasswordForm = () => {
 };
 
 const LastForm = () => {
-  const { submit, next } = useSlideFormContext();
+  const { next, submitForm, form } = useSlideFormContext();
   const formRef = useRef<HTMLFormElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [twoFAState, setTwoFAState] = useState<TwoFAInputState>("idle");
@@ -132,10 +132,11 @@ const LastForm = () => {
         if (code === "666666") {
           resolve("");
           setTwoFAState("success");
-          submit((values) => {
-            // eslint-disable-next-line no-console
-            console.log("Fetch API", values);
-          }, code);
+          submitForm(code);
+
+          // eslint-disable-next-line no-console
+          console.log("Submit: ", form);
+
           setTimeout(() => {
             next(code);
           }, 250);

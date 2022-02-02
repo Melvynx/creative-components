@@ -17,12 +17,10 @@ type SlideFormProps<T extends string[]> = PropsWithChildren<{
 
 type SlideFormContextType = {
   next: (data: unknown) => void;
+  submitForm: (data: unknown) => void;
+  form: Record<string, Record<string, unknown>>;
   back: () => void;
   current: string;
-  submit: (
-    callback: (values: Record<string, unknown>) => void,
-    values: unknown
-  ) => void;
   previousRef?: MutableRefObject<string>;
   tabs: string[];
 };
@@ -30,7 +28,8 @@ type SlideFormContextType = {
 const slideFormContext = createContext<SlideFormContextType>({
   next: () => void 0,
   back: () => void 0,
-  submit: () => () => void 0,
+  submitForm: () => void 0,
+  form: {},
   current: "",
   tabs: [],
 });
@@ -42,18 +41,24 @@ export const SlideForm = <T extends string[]>({
 }: SlideFormProps<T>) => {
   const [current, setCurrent] = useState(initialTab);
   const previousRef = useRef<string>();
-  const [form, setForm] = useState<Record<T[number], unknown>>({} as never);
+  const [form, setForm] = useState<Record<T[number], Record<string, unknown>>>(
+    {} as never
+  );
 
   useEffect(() => {
     previousRef.current = current;
   }, [current]);
 
   const next = (values: unknown) => {
+    submitForm(values);
+    setCurrent(tabs[(tabs.indexOf(current) + 1) % tabs.length]);
+  };
+
+  const submitForm = (values: unknown) => {
     setForm((prev) => ({
       ...prev,
       [current]: values,
     }));
-    setCurrent(tabs[(tabs.indexOf(current) + 1) % tabs.length]);
   };
 
   const back = () => {
@@ -64,31 +69,16 @@ export const SlideForm = <T extends string[]>({
     setCurrent(tabs[Math.max(0, tabs.indexOf(current) - (1 % tabs.length))]);
   };
 
-  const submit = (
-    callback: (values: Record<T[number], unknown>) => void,
-    values?: unknown
-  ) => {
-    if (values) {
-      const newForm = {
-        ...form,
-        [current]: values,
-      };
-      setForm(newForm);
-      callback(newForm);
-      return;
-    }
-    callback(form);
-  };
-
   return (
     <slideFormContext.Provider
       value={{
         next,
         back,
         current,
-        submit,
+        submitForm,
         tabs,
         previousRef,
+        form,
       }}
     >
       <Wrapper>{children}</Wrapper>

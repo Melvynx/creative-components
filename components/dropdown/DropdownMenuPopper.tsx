@@ -97,5 +97,5 @@ const PopperCard = styled.div`
   padding: 6px;
   border-radius: 4px;
   color: #393ee3;
-  animation: ${sideUp} 500ms var(--ease-out) forwards;
+  animation: ${sideUp} 250ms var(--ease-in-out) forwards;
 `;
