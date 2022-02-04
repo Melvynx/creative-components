@@ -21,6 +21,7 @@ export const LayoutNav = () => {
           <Item>Dropdown</Item>
           <Item>Slide Form</Item>
           <Item>Two FA</Item>
+          <Item>Shadow button</Item>
         </DropdownItems>
         <DropdownManager>
           <NavItem>Components</NavItem>
