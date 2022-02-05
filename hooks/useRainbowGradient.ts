@@ -35,7 +35,7 @@ export const useRainbowGradient = (rainbowColors: string[], delay: number) => {
           name: `--rainbow-gradient-${uniqueId.current}-${i}`,
           syntax: "<color>",
           inherits: false,
-          initialValue: "#c0ffee",
+          initialValue: "#ffffff",
         });
       } catch (e: unknown) {
         // this error append when NextJS hot reload.
