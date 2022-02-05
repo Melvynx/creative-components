@@ -131,6 +131,38 @@ const Button = styled.button`
   &:hover {
     filter: brightness(1.1);
   }
+
+  &:active {
+    &:before {
+      visibility: hidden;
+    }
+
+    &:after {
+      background-image: linear-gradient(
+        to bottom,
+        hsla(0, 0%, 100%, 0) 0%,
+        hsla(0, 0%, 100%, 0.0004) 13.2%,
+        hsla(0, 0%, 100%, 0.0016) 24.4%,
+        hsla(0, 0%, 100%, 0.0034) 34%,
+        hsla(0, 0%, 100%, 0.0059) 42.1%,
+        hsla(0, 0%, 100%, 0.0089) 49%,
+        hsla(0, 0%, 100%, 0.023) 54.9%,
+        hsla(0, 0%, 100%, 0.062) 60%,
+        hsla(0, 0%, 100%, 0.103) 64.6%,
+        hsla(0, 0%, 100%, 0.147) 68.8%,
+        hsla(0, 0%, 100%, 0.193) 73%,
+        hsla(0, 0%, 100%, 0.239) 77.2%,
+        hsla(0, 0%, 100%, 0.286) 81.8%,
+        hsla(0, 0%, 100%, 0.332) 87%,
+        hsla(0, 0%, 100%, 0.377) 93%,
+        hsla(0, 0%, 100%, 0.4) 100%
+      );
+    }
+
+    & > span {
+      transform: scale(0.9);
+    }
+  }
 `;
 
 const Content = styled.span`
