@@ -41,7 +41,6 @@ rules:
   no-shadow-restricted-names: error
   no-sparse-arrays: error
   no-tabs: error
-  no-template-curly-in-string: error
   no-this-before-super: error
   prefer-numeric-literals: error
   prefer-object-spread: error
@@ -69,7 +68,7 @@ rules:
   '@typescript-eslint/prefer-optional-chain': error
   '@typescript-eslint/prefer-readonly': error
   '@typescript-eslint/prefer-string-starts-ends-with': error
-  '@typescript-eslint/prefer-ts-expect-error': error
+  '@typescript-eslint/prefer-ts-expect-error': 0
   '@typescript-eslint/promise-function-async': error
   '@typescript-eslint/require-array-sort-compare': error
   '@typescript-eslint/sort-type-union-intersection-members': error
