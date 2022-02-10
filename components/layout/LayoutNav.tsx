@@ -22,6 +22,7 @@ export const LayoutNav = () => {
           <Item>Slide Form</Item>
           <Item>Two FA</Item>
           <Item>Shadow button</Item>
+          <Item>Gumroad Button</Item>
         </DropdownItems>
         <DropdownManager>
           <NavItem>Components</NavItem>
@@ -33,7 +34,9 @@ export const LayoutNav = () => {
 
 const Item = ({ children }: { children: string }) => {
   return (
-    <Link href={`/examples/${children.replaceAll(" ", "_").toLocaleLowerCase()}`}>
+    <Link
+      href={`/examples/${children.replaceAll(" ", "_").toLocaleLowerCase()}`}
+    >
       <DropdownItem>{children}</DropdownItem>
     </Link>
   );

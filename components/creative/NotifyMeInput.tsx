@@ -22,11 +22,6 @@ export default function NotifyMeInput({
     onSubmit(value);
   };
 
-  // const { width } = useSpring({
-  //   width: open ? 300 : 150,
-  //   config: config.gentle,
-  // });
-
   const inputStyle: Record<string, string> = {
     transform: open ? "scale(1)" : "scale(0)",
     position: open ? "relative" : "absolute",
@@ -140,7 +135,7 @@ const Content = styled.span`
   font-family: inherit;
   line-height: 2.5rem;
   cursor: pointer;
-  padding: 0px 8px;
+  padding: 0 8px;
   color: var(--primary-color);
   transition-delay: var(--delay-close);
   transition: transform var(--transition-duration) var(--timing-function);
