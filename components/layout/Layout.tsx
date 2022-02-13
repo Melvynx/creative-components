@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
 import Head from "next/head";
-import Link from "next/link";
 import React, { ReactNode } from "react";
-import { QUERIES, WEIGHTS } from "~/styles/constants";
-import { LayoutNav } from "./LayoutNav";
+import { QUERIES } from "~/styles/constants";
+import { LayoutHeader } from "~/components/layout/LayoutHeader";
 
 type Props = {
   children?: ReactNode;
@@ -18,45 +17,14 @@ const Layout = ({ children, title = "Title" }: Props) => (
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
     <Container>
-      <Header>
-        <Side>
-          <Link href="/">
-            <MelvynxLogo>Melvynx</MelvynxLogo>
-          </Link>
-        </Side>
-        <NavDesktop>
-          <LayoutNav />
-        </NavDesktop>
-        <Side></Side>
-        {/* <NavMobile>
-          <LayoutNav />
-        </NavMobile> */}
-      </Header>
-      <Content>{children}</Content>
+      <LayoutHeader />
+      <Content>{children}</Content>Ø
       <Footer>
         <span>2022 - @Melvynx</span>
       </Footer>
     </Container>
   </>
 );
-
-const Side = styled.div`
-  flex: 1;
-`;
-
-const NavDesktop = styled.nav`
-  display: none;
-  align-items: center;
-  gap: clamp(1rem, 2vw + 1rem, 2rem);
-
-  @media ${QUERIES.tabletAndUp} {
-    display: flex;
-  }
-`;
-
-/*const NavMobile = styled.nav`
-  display: none;
-`;*/
 
 const Footer = styled.footer`
   margin-top: auto;
@@ -75,28 +43,11 @@ const Container = styled.div`
   --sticky-header: 32px;
 `;
 
-const MelvynxLogo = styled.span`
-  font-size: 2rem;
-  background: var(--gradient-primary);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: var(--font-family-sans-serif);
-  font-weight: ${WEIGHTS.bold};
-  display: inline-block;
-  cursor: pointer;
-`;
-
-const Header = styled.header`
-  display: flex;
-  border-radius: 1000px;
-  position: sticky;
-  top: var(--sticky-header);
-  align-items: baseline;
-  gap: 16px;
-`;
-
 const Content = styled.main`
+  // isolate the content to be behind the header
+  isolation: isolate;
+  z-index: 1;
+
   margin-top: var(--sticky-header);
 
   @media ${QUERIES.tabletAndUp} {
