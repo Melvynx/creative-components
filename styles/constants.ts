@@ -16,6 +16,10 @@ export const COLORS = {
     700: "hsl(220deg 5% 40%)",
     900: "hsl(220deg 3% 20%)",
   },
+  purple: {
+    dark: "#6e56cf",
+    main: "#6e56cf",
+  },
   dark: "#000000",
 };
 

@@ -88,12 +88,12 @@ const PopperArrow = styled.div`
   width: 16px;
   height: 16px;
   clip-path: polygon(50% 55%, 0% 100%, 100% 100%);
-  background: #ffffff;
+  background: var(--color-white);
 `;
 
 const PopperCard = styled.div`
   position: relative;
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--color-white);
   padding: 6px;
   border-radius: 4px;
   color: #393ee3;

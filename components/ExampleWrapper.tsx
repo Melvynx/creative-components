@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { QUERIES } from "~/styles/constants";
 
-export const ExampleWrapper = styled.div<{ backgroundColor: string }>`
+export const ExampleWrapper = styled.div<{ backgroundColor?: string }>`
   --breathing-space: 16px;
 
   border-radius: 8px;

@@ -11,7 +11,7 @@ export const DropdownItem = ({
 
 const Wrapper = styled.a`
   width: 100%;
-  color: #6e56cf;
+  color: var(--color-purple-dark);
   font-size: 1rem;
   padding: 4px 8px;
   font-weight: ${WEIGHTS.normal};
@@ -21,7 +21,7 @@ const Wrapper = styled.a`
   font-family: var(--font-family-sans-serif);
 
   &:hover {
-    background: #6e56cf;
+    background: var(--color-purple-main);
     color: white;
   }
 `;
