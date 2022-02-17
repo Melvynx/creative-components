@@ -18,7 +18,7 @@ const Layout = ({ children, title = "Title" }: Props) => (
     </Head>
     <Container>
       <LayoutHeader />
-      <Content>{children}</Content>Ø
+      <Content>{children}</Content>
       <Footer>
         <span>2022 - @Melvynx</span>
       </Footer>

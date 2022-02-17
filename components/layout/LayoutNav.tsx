@@ -24,6 +24,7 @@ export const LayoutNav = () => {
           <Item>Shadow button</Item>
           <Item>Gumroad Button</Item>
           <Item>Tooltip</Item>
+          <Item>Notion</Item>
         </DropdownItems>
         <DropdownManager>
           <NavItem>Components</NavItem>
