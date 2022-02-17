@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import { MoveButton } from "~/components/creative/MoveButton";
+import Link from "next/link";
+import { QUERIES } from "~/styles/constants";
 
 type NotionLinkType = {
   data: {
@@ -17,7 +20,7 @@ type NotionLinkType = {
 export const NotionTodayLink = () => {
   const [link, setLink] = useState<NotionLinkType>();
 
-  useEffect(() => {
+  const getRandomLink = () => {
     void fetch("/api/notion")
       .then(async (res) => {
         if (res.ok) {
@@ -39,6 +42,10 @@ export const NotionTodayLink = () => {
         };
         setLink(json);
       });
+  };
+
+  useEffect(() => {
+    getRandomLink();
   }, []);
 
   if (!link) {
@@ -50,7 +57,10 @@ export const NotionTodayLink = () => {
       <Shadow />
 
       <Content>
-        <Title key={link.id}>{link.data.title}</Title>
+        <Link href={link.data.url}>
+          <Title key={link.id}>{link.data.title}</Title>
+        </Link>
+
         <Tags>
           {link.data.tags.map((tag) => (
             <Tag key={tag.name} style={{ "--tag-color": tag.color }}>
@@ -59,9 +69,27 @@ export const NotionTodayLink = () => {
           ))}
         </Tags>
 
-        <LinkIcon>
-          <HiOutlineExternalLink />
-        </LinkIcon>
+        <MoveButton
+          onClick={() => {
+            void fetch("/api/notion", {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                pageId: link.id,
+              }),
+            }).then(async (e) => (e.ok ? getRandomLink() : null));
+          }}
+        >
+          Check Read
+        </MoveButton>
+
+        <Link href={link.data.url}>
+          <LinkIcon>
+            <HiOutlineExternalLink />
+          </LinkIcon>
+        </Link>
       </Content>
     </Wrapper>
   );
@@ -71,8 +99,8 @@ const Content = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 32px;
+  gap: 8px;
+  padding: 16px;
 
   background-image: linear-gradient(
     300deg,
@@ -82,7 +110,6 @@ const Content = styled.div`
     hsl(43deg 100% 60%) 100%
   );
   border-radius: inherit;
-  cursor: pointer;
 
   transition: transform 200ms var(--ease-in-out);
   &:hover {
@@ -91,6 +118,11 @@ const Content = styled.div`
 
   &:hover *:last-child {
     opacity: 1;
+  }
+
+  @media ${QUERIES.tabletAndUp} {
+    padding: 32px;
+    gap: 16px;
   }
 `;
 
@@ -102,17 +134,27 @@ const LinkIcon = styled.div`
   padding: 12px;
   background: var(--color-white);
   opacity: 0;
-  transition: opacity 200ms var(--ease-in-out);
+  transition: opacity 200ms var(--ease-in-out),
+    transform 200ms var(--ease-in-out);
+  cursor: pointer;
 
   & > * {
     color: #000000;
+  }
+
+  &:hover {
+    transform: scale(1.2);
   }
 `;
 
 const Wrapper = styled.div`
   border-radius: 8px;
-  margin: 16px;
+  margin: 8px;
   position: relative;
+
+  @media ${QUERIES.tabletAndUp} {
+    margin: 16px;
+  }
 `;
 
 const Shadow = styled.div`
@@ -124,8 +166,17 @@ const Shadow = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: bold;
+  cursor: pointer;
+
+  @media ${QUERIES.tabletAndUp} {
+    font-size: 2rem;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Tag = styled.span`
@@ -133,8 +184,9 @@ const Tag = styled.span`
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: bold;
-  padding: 4px 8px;
+  padding: 6px 8px;
   text-transform: uppercase;
+  line-height: 1;
 `;
 
 const Tags = styled.div`
