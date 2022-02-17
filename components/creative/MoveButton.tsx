@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   background-color: #000000;
   border-radius: 4px;
   cursor: pointer;
+  width: fit-content;
 
   &:hover > button {
     transform: translate(-4px, -4px);
