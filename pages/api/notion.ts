@@ -55,10 +55,29 @@ const getHandler: ApiHandler = async (req, res) => {
     ],
   });
 
-  const randomResult =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const randomResult: any =
     response.results[Math.floor(Math.random() * response.results.length)];
 
-  res.status(200).json(randomResult);
+  if (randomResult.object !== "page") {
+    res.status(404);
+    return;
+  }
+
+  const json = {
+    data: {
+      title: `${randomResult.icon?.emoji ?? ""} ${
+        randomResult.properties["\ufeffName"].title[0].plain_text
+      }`.trim(),
+      url: randomResult.properties.URL.url,
+      tags: randomResult.properties.Tags.multi_select.map((m) => ({
+        name: m.name,
+        color: m.color,
+      })),
+    },
+  };
+
+  res.status(200).json(json);
 };
 
 export default handler;

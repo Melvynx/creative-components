@@ -38,8 +38,8 @@ const Button = styled.button`
   background-color: #f4f4f0;
   border-radius: 4px;
   border: 1px solid #000000;
-  will-change: transform, filter;
   cursor: inherit;
 
+  will-change: transform;
   transition: transform 300ms var(--ease-in-out);
 `;

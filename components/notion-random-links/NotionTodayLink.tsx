@@ -1,26 +1,21 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import { MoveButton } from "~/components/creative/MoveButton";
 import Link from "next/link";
 import { QUERIES } from "~/styles/constants";
-
-type NotionLinkType = {
-  data: {
-    title: string;
-    url: string;
-    tags: {
-      name: string;
-      color: string;
-    }[];
-  };
-  id: number;
-};
+import { useStickyState } from "~/hooks/useStickyState";
+import { FiCheck, FiArrowRight } from "react-icons/fi";
+import { ActionButton } from "~/components/notion-random-links/ActionButton";
+import { Spinner } from "~/components/loader/Loader";
+import { NotionLinkType } from "~/interfaces/notion";
 
 export const NotionTodayLink = () => {
-  const [link, setLink] = useState<NotionLinkType>();
+  const [link, setLink] = useStickyState<NotionLinkType>(null, "notion-link");
+  console.log(link);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getRandomLink = () => {
+    setIsLoading(true);
     void fetch("/api/notion")
       .then(async (res) => {
         if (res.ok) {
@@ -29,24 +24,16 @@ export const NotionTodayLink = () => {
           throw new Error("Notion API call failed");
         }
       })
-      .then((json) => {
-        json.data = {
-          title: `${json.icon?.emoji ?? ""} ${
-            json.properties["\ufeffName"].title[0].plain_text
-          }`.trim(),
-          url: json.properties.URL.url,
-          tags: json.properties.Tags.multi_select.map((m) => ({
-            name: m.name,
-            color: m.color,
-          })),
-        };
+      .then((json: NotionLinkType) => {
+        setIsLoading(false);
         setLink(json);
       });
   };
 
   useEffect(() => {
+    if (link !== null) return;
     getRandomLink();
-  }, []);
+  }, [link]);
 
   if (!link) {
     return null;
@@ -58,7 +45,9 @@ export const NotionTodayLink = () => {
 
       <Content>
         <Link href={link.data.url}>
-          <Title key={link.id}>{link.data.title}</Title>
+          <a>
+            <Title>{link.data.title}</Title>
+          </a>
         </Link>
 
         <Tags>
@@ -69,27 +58,47 @@ export const NotionTodayLink = () => {
           ))}
         </Tags>
 
-        <MoveButton
-          onClick={() => {
-            void fetch("/api/notion", {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                pageId: link.id,
-              }),
-            }).then(async (e) => (e.ok ? getRandomLink() : null));
-          }}
-        >
-          Check Read
-        </MoveButton>
+        <ButtonWrapper>
+          <ActionButton
+            onClick={() => {
+              void fetch("/api/notion", {
+                method: "PATCH",
 
-        <Link href={link.data.url}>
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  pageId: link.id,
+                }),
+              }).then(async (e) => (e.ok ? getRandomLink() : null));
+            }}
+          >
+            <FiCheck /> Done
+          </ActionButton>
+          <NextButton
+            onClick={() => {
+              getRandomLink();
+            }}
+          >
+            Next
+            <FiArrowRight />
+          </NextButton>
+        </ButtonWrapper>
+
+        {/* This element should be in the last position for css-selector */}
+        {isLoading ? (
+          <Loader>
+            <Spinner />
+          </Loader>
+        ) : (
           <LinkIcon>
-            <HiOutlineExternalLink />
+            <Link href={link.url}>
+              <a>
+                <HiOutlineExternalLink />
+              </a>
+            </Link>
           </LinkIcon>
-        </Link>
+        )}
       </Content>
     </Wrapper>
   );
@@ -107,11 +116,11 @@ const Content = styled.div`
     hsl(240deg 31% 40%) 0%,
     hsl(294deg 35% 52%) 39%,
     hsl(349deg 58% 63%) 61%,
-    hsl(43deg 100% 60%) 100%
+    hsl(44, 100%, 56%) 100%
   );
   border-radius: inherit;
-
   transition: transform 200ms var(--ease-in-out);
+
   &:hover {
     transform: translate(6px, 6px);
   }
@@ -126,12 +135,32 @@ const Content = styled.div`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const NextButton = styled(ActionButton)`
+  & > svg {
+    transition: transform 200ms var(--ease-in-out);
+  }
+  padding-right: 16px;
+
+  &:hover > svg {
+    transform: translateX(8px);
+  }
+
+  &:active > svg {
+    transform: translateX(12px);
+  }
+`;
+
 const LinkIcon = styled.div`
   position: absolute;
   top: -8px;
   right: -8px;
   border-radius: 100%;
-  padding: 12px;
   background: var(--color-white);
   opacity: 0;
   transition: opacity 200ms var(--ease-in-out),
@@ -140,6 +169,8 @@ const LinkIcon = styled.div`
 
   & > * {
     color: #000000;
+    margin: 12px;
+    display: block;
   }
 
   &:hover {
@@ -148,7 +179,8 @@ const LinkIcon = styled.div`
 `;
 
 const Wrapper = styled.div`
-  border-radius: 8px;
+  --radius: 8px;
+  border-radius: var(--radius);
   margin: 8px;
   position: relative;
 
@@ -165,10 +197,22 @@ const Shadow = styled.div`
   border-radius: inherit;
 `;
 
-const Title = styled.h2`
+const Loader = styled.div`
+  position: absolute;
+  inset: 0;
+  background: hsl(0 0% 0% / 0.5);
+  background-size: 200% auto;
+  border-radius: var(--radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Title = styled.span`
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
+  font-family: var(--font-family-sans-serif);
 
   @media ${QUERIES.tabletAndUp} {
     font-size: 2rem;

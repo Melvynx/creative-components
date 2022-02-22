@@ -1,27 +1,45 @@
-import styled from "@emotion/styled";
-import { LiHTMLAttributes, PropsWithChildren } from "react";
+import { AnchorHTMLAttributes, PropsWithChildren } from "react";
 import { WEIGHTS } from "~/styles/constants";
+import { css } from "@emotion/css";
+import Link from "next/link";
 
 export const DropdownItem = ({
   children,
+  href,
   ...props
-}: PropsWithChildren<LiHTMLAttributes<HTMLAnchorElement>>) => {
-  return <Wrapper {...props}>{children}</Wrapper>;
-};
+}: PropsWithChildren<AnchorHTMLAttributes<HTMLAnchorElement>>) => {
+  const link = (
+    <a
+      {...props}
+      className={css`
+        width: 100%;
+        color: var(--color-purple-dark);
+        font-size: 1rem;
+        padding: 4px 8px;
+        font-weight: ${WEIGHTS.normal};
+        cursor: pointer;
+        min-width: 128px;
+        border-radius: 4px;
+        font-family: var(--font-family-sans-serif);
+        text-decoration: none;
 
-const Wrapper = styled.a`
-  width: 100%;
-  color: var(--color-purple-dark);
-  font-size: 1rem;
-  padding: 4px 8px;
-  font-weight: ${WEIGHTS.normal};
-  cursor: pointer;
-  min-width: 128px;
-  border-radius: 4px;
-  font-family: var(--font-family-sans-serif);
+        &:hover {
+          background: var(--color-purple-main);
+          color: white;
+          text-decoration: underline;
+        }
+      `}
+    >
+      {children}
+    </a>
+  );
 
-  &:hover {
-    background: var(--color-purple-main);
-    color: white;
+  if (href) {
+    return (
+      <Link href={href} {...props}>
+        {link}
+      </Link>
+    );
   }
-`;
+  return link;
+};

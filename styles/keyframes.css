@@ -71,3 +71,16 @@
     opacity: 1;
   }
 }
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-rotate {
+  animation: spinner 1s linear infinite;
+}

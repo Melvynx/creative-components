@@ -36,11 +36,11 @@ export const LayoutNav = () => {
 
 const Item = ({ children }: { children: string }) => {
   return (
-    <Link
+    <DropdownItem
       href={`/examples/${children.replaceAll(" ", "_").toLocaleLowerCase()}`}
     >
-      <DropdownItem>{children}</DropdownItem>
-    </Link>
+      {children}
+    </DropdownItem>
   );
 };
 

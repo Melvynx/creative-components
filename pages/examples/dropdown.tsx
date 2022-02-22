@@ -3,7 +3,6 @@ import { DropdownMenu } from "~/components/dropdown/DropdownMenu";
 import Layout from "~/components/layout/Layout";
 import { DropdownItem } from "~/components/dropdown/DropdownItem";
 import { DropdownItems } from "~/components/dropdown/DropdownWrapper";
-import Link from "next/link";
 import { DropdownManager } from "~/components/dropdown/DropdownManager";
 
 const DropdownExample = () => (
@@ -11,12 +10,8 @@ const DropdownExample = () => (
     <Wrapper>
       <DropdownMenu mode="click">
         <DropdownItems>
-          <Link href="/examples/notify_me">
-            <DropdownItem>Notify me</DropdownItem>
-          </Link>
-          <Link href="/examples/dropdown">
-            <DropdownItem>New Window</DropdownItem>
-          </Link>
+          <DropdownItem href="/examples/notify_me">Notify me</DropdownItem>
+          <DropdownItem href="/examples/dropdown">New Window</DropdownItem>
         </DropdownItems>
         <DropdownManager>
           <Button>
