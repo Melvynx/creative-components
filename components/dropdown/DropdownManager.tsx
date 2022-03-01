@@ -1,23 +1,26 @@
-import {Reference} from "react-popper";
-import React, {PropsWithChildren} from "react";
-import {useDropdownMenuContext} from "~/components/dropdown/DropdownMenu";
+import { Reference } from "react-popper";
+import React, { PropsWithChildren } from "react";
+import { useDropdownMenuContext } from "~/components/dropdown/DropdownMenu";
 import styled from "@emotion/styled";
 
-export const DropdownManager = ({children}: PropsWithChildren<unknown>) => {
+export const DropdownManager = ({ children }: PropsWithChildren<unknown>) => {
   const { setIsOpen, mode } = useDropdownMenuContext();
 
+  const isHover = mode === "hover";
+  const isClick = mode === "click";
+
   const onOpen = () => {
-    if (mode !== "hover") return;
+    if (!isHover) return;
     setIsOpen(true);
   };
 
   const onClose = () => {
-    if (mode !== "hover") return;
+    if (!isHover) return;
     setIsOpen(false);
   };
 
   const onToggle = () => {
-    if (mode !== "click") return;
+    if (!isClick) return;
     setIsOpen((p) => !p);
   };
 
