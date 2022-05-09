@@ -4,11 +4,9 @@ import { RainbowButton } from "~/components/creative/RainbowButton";
 
 const ShadowButtonExample = () => {
   return (
-    <Layout>
-      <ExampleWrapper>
-        <RainbowButton>Click me</RainbowButton>
-      </ExampleWrapper>
-    </Layout>
+    <ExampleWrapper>
+      <RainbowButton>Click me</RainbowButton>
+    </ExampleWrapper>
   );
 };
 

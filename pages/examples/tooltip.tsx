@@ -4,13 +4,11 @@ import { Tooltip } from "~/components/Tooltip";
 
 export const TooltipExample = () => {
   return (
-    <Layout>
-      <ExampleWrapper>
-        <Tooltip title="Thanks for hovering">
-          <button>Hover me</button>
-        </Tooltip>
-      </ExampleWrapper>
-    </Layout>
+    <ExampleWrapper>
+      <Tooltip title="Thanks for hovering">
+        <button>Hover me</button>
+      </Tooltip>
+    </ExampleWrapper>
   );
 };
 

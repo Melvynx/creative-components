@@ -26,7 +26,10 @@ export const NotionTodayLink = () => {
       })
       .then((json: NotionLinkType) => {
         setIsLoading(false);
-        setLink(json);
+        if (json) {
+          console.log(json);
+          setLink(json);
+        }
       });
   };
 
@@ -35,8 +38,8 @@ export const NotionTodayLink = () => {
     getRandomLink();
   }, [link]);
 
-  if (!link) {
-    return null;
+  if (!link || isLoading) {
+    return <p>loading...</p>;
   }
 
   return (
@@ -44,7 +47,7 @@ export const NotionTodayLink = () => {
       <Shadow />
 
       <Content>
-        <Link href={link.data.url}>
+        <Link href={link.data.url ?? "#"}>
           <a>
             <Title>{link.data.title}</Title>
           </a>
@@ -92,11 +95,11 @@ export const NotionTodayLink = () => {
           </Loader>
         ) : (
           <LinkIcon>
-            <Link href={link.url}>
-              <a>
-                <HiOutlineExternalLink />
-              </a>
-            </Link>
+            {/* <Link href={link.url}> */}
+            <a>
+              <HiOutlineExternalLink />
+            </a>
+            {/* </Link> */}
           </LinkIcon>
         )}
       </Content>

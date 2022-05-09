@@ -17,13 +17,11 @@ const TwoFA = () => {
   };
 
   return (
-    <Layout>
-      <ExampleWrapper>
-        <Wrapper>
-          <TwoFAInput onSubmit={onSubmit} state={twoFAState} />
-        </Wrapper>
-      </ExampleWrapper>
-    </Layout>
+    <ExampleWrapper>
+      <Wrapper>
+        <TwoFAInput onSubmit={onSubmit} state={twoFAState} />
+      </Wrapper>
+    </ExampleWrapper>
   );
 };
 

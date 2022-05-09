@@ -6,34 +6,32 @@ import { DropdownItems } from "~/components/dropdown/DropdownWrapper";
 import { DropdownManager } from "~/components/dropdown/DropdownManager";
 
 const DropdownExample = () => (
-  <Layout>
-    <Wrapper>
-      <DropdownMenu mode="click">
-        <DropdownItems>
-          <DropdownItem href="/examples/notify_me">Notify me</DropdownItem>
-          <DropdownItem href="/examples/dropdown">New Window</DropdownItem>
-        </DropdownItems>
-        <DropdownManager>
-          <Button>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </Button>
-        </DropdownManager>
-      </DropdownMenu>
-    </Wrapper>
-  </Layout>
+  <Wrapper>
+    <DropdownMenu mode="click">
+      <DropdownItems>
+        <DropdownItem href="/examples/notify_me">Notify me</DropdownItem>
+        <DropdownItem href="/examples/dropdown">New Window</DropdownItem>
+      </DropdownItems>
+      <DropdownManager>
+        <Button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </Button>
+      </DropdownManager>
+    </DropdownMenu>
+  </Wrapper>
 );
 
 const Wrapper = styled.div`

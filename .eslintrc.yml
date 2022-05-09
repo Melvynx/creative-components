@@ -76,3 +76,4 @@ rules:
   '@typescript-eslint/type-annotation-spacing': error
   '@typescript-eslint/unified-signatures': error
   'react/react-in-jsx-scope': 0
+  "@typescript-eslint/no-floating-promises": 0

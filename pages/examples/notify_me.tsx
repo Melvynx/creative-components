@@ -1,22 +1,20 @@
-import styled from '@emotion/styled';
-import { useState } from 'react';
-import Layout from '~/components/layout/Layout';
-import NotifyMeInput from '~/components/creative/NotifyMeInput';
+import styled from "@emotion/styled";
+import { useState } from "react";
+import Layout from "~/components/layout/Layout";
+import NotifyMeInput from "~/components/creative/NotifyMeInput";
 
 const NotifyMe = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
-      <Wrapper>
-        {email}
-        <NotifyMeInput
-          onSubmit={(email) => {
-            setEmail(email);
-          }}
-        />
-      </Wrapper>
-    </Layout>
+    <Wrapper>
+      {email}
+      <NotifyMeInput
+        onSubmit={(email) => {
+          setEmail(email);
+        }}
+      />
+    </Wrapper>
   );
 };
 

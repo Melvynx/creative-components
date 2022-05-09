@@ -11,6 +11,7 @@ import "~/styles/reset.css";
 import "~/styles/styles.css";
 import "~/styles/keyframes.css";
 import { NextJSRouterLoader } from "~/components/NextJSRouterLoader";
+import Layout from "~/components/layout/Layout";
 
 const themeVariables = Object.entries(flat(COLORS))
   .map(([key, value]) => `--color-${key}: ${String(value)};`)
@@ -20,7 +21,9 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <MuiThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
         <CssBaseline />
         <Global
           styles={css`

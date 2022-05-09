@@ -15,33 +15,31 @@ import { ExampleWrapper } from "~/components/ExampleWrapper";
 
 const SlideFormExample = () => {
   return (
-    <Layout>
-      <ExampleWrapper>
-        <SlideForm
-          tabs={["email", "password", "2fa", "success"]}
-          initialTab={"email"}
-        >
-          <SlideBackButton>
-            <BackButton>
-              <HiArrowSmLeft />
-            </BackButton>
-          </SlideBackButton>
-          <Title>Login</Title>
-          <SlideFormTab tab="email">
-            <EmailForm />
-          </SlideFormTab>
-          <SlideFormTab tab="password">
-            <PasswordForm />
-          </SlideFormTab>
-          <SlideFormTab tab="2fa">
-            <LastForm />
-          </SlideFormTab>
-          <SlideFormTab tab="success">
-            <SuccessForm />
-          </SlideFormTab>
-        </SlideForm>
-      </ExampleWrapper>
-    </Layout>
+    <ExampleWrapper>
+      <SlideForm
+        tabs={["email", "password", "2fa", "success"]}
+        initialTab={"email"}
+      >
+        <SlideBackButton>
+          <BackButton>
+            <HiArrowSmLeft />
+          </BackButton>
+        </SlideBackButton>
+        <Title>Login</Title>
+        <SlideFormTab tab="email">
+          <EmailForm />
+        </SlideFormTab>
+        <SlideFormTab tab="password">
+          <PasswordForm />
+        </SlideFormTab>
+        <SlideFormTab tab="2fa">
+          <LastForm />
+        </SlideFormTab>
+        <SlideFormTab tab="success">
+          <SuccessForm />
+        </SlideFormTab>
+      </SlideForm>
+    </ExampleWrapper>
   );
 };
 
